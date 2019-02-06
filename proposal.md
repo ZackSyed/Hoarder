@@ -20,11 +20,11 @@ As the player collects more and more dots, the nefarious circle will start to pi
 
 ### MVP's in order of importance: 
 
-[] create a grid for a player to move freely around.
-[] creating nefarious circle with collision physics.
-[] dot collected counter 
-[] allow circles to traverse the whole screen, coming out of the play area instead of bouncing off the walls. Player should not be able to do the same. 
-[] scoreboard
+ - create a grid for a player to move freely around.
+ - creating nefarious circle with collision physics.
+ - dot collected counter 
+ - allow circles to traverse the whole screen, coming out of the play area instead of bouncing off the walls. Player should not be able to do the same. 
+ - scoreboard
 
 ## Architectures and technologies
 
@@ -41,8 +41,10 @@ As the player collects more and more dots, the nefarious circle will start to pi
 ## Timeline 
 
 ### Day 1: 
+    
+    
 
-    - [] Finished canvas drawings of objects. (circles, player object, dots)
+    Finished canvas drawings of objects. (circles, player object, dots)
 
     - [] Finished collision and consuming of circles/dots
 
