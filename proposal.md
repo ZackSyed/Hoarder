@@ -35,41 +35,24 @@ As the player collects more and more dots, the nefarious circle will start to pi
 - HTML audio player (WebAudioAPI)
     - music for game over, consuming dots, losing dots.
 - Webpack 
-    - bundle files together. 
+    - bundle files together.   
+ 
+ Day 1:
+    - Finished canvas drawings of objects. (circles, player object, dots
+    - Finished collision and consuming of circles/dots
+    - Updating dot counter
+ 
+ Day 2: 
+   - Finish controls moving the player
+   - render sounds for specific actions 
+   - spontaneous creation of circles and dots
 
+Day 3:
+   - Controller layout modal
+   - Finish styling
+   - Game over mechanics 
 
-## Timeline 
-
-### Day 1: 
-    
-    
-
-    Finished canvas drawings of objects. (circles, player object, dots)
-
-    - [] Finished collision and consuming of circles/dots
-
-    - [] Updating dot counter 
-
-### Day 2: 
-
-    - [] Finish controls moving the players.
-
-    - [] Render sound for specific actions.
-
-    - [] Spontaneous creation of circles and dots. 
-
-### Day 3: 
-
-    - [] Controller layout modal. 
-
-    - [] Finish styling. 
-
-    - [] Game over mechanics 
-
-
-### weekend: 
-
-    - [] Fix bugs 
-
-    - [] Finish styling 
+Day 4 - 5: 
+  - finish bugs 
+  - finish styling 
 
