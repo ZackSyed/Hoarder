@@ -1,8 +1,18 @@
 {
   "name": "hoarder",
   "version": "1.0.0",
-  "description": "Javascript game ",
-  "main": "index.js",
+  "dependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.2.3",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.5",
+    "install": "^0.12.2",
+    "npm": "^6.7.0",
+    "webpack": "^4.28.4",
+    "webpack-cli": "^3.2.1"
+  },
+  "description": "Javascript game: Hoarder",
+  "main": "hoarder.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "webpack": "webpack --mode=development --watch"
