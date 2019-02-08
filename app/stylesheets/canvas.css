@@ -1,7 +1,10 @@
+
+
 #myCanvas {
     background-color: "red";
+    align-self: center; 
 }
 
 #root {
-    background: aquamarine
+    background: aquamarine;
 }

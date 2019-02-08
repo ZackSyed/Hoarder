@@ -5,52 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Hoarder</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <script src="hoarder.js"></script>
+    <link rel="stylesheet" type="text/css" media="screen" href="./app/stylesheets/canvas.css" />
+    <script src="./app/assets/javascripts/bundle.js"></script>
 </head>
 <body>
     <div id="root">
-        <canvas id = "myCanvas" width="480" height="320"></canvas>
+        <canvas id = "myCanvas" width="1000" height="1000"></canvas>
+
         <script>
-            var canvas = document.getElementById("myCanvas");
-            var ctx = canvas.getContext("2d");
-            var x = canvas.width/2;
-            var y = canvas.height-30;
-            var circleRadius = 10;
-            var dx = 2;
-            var dy = -2;
-
-            function drawPlayer() {
-                ctx.beginPath();
-                ctx.arc(240, 160, 40, 0, Math.PI*2);
-                ctx.strokeStyle = "black";
-                ctx.stroke();
-                ctx.closePath();
-            }
-
-            function drawCircle() {
-                ctx.beginPath();
-                ctx.arc(x, y, circleRadius, 0, Math.PI*2);
-                ctx.fillStyle = "green";
-                ctx.fill();
-                ctx.closePath();
-            }
             
-            function draw(){
-                ctx.clearRect(0, 0, canvas.width, canvas.height);   
-                drawPlayer();
-                drawCircle();
-                if(x + dx > canvas.width-circleRadius || x + dx < circleRadius) {
-                    dx = -dx;
-                } else if (y + dy > canvas.height-circleRadius || y + dy < circleRadius) {
-                    dy = -dy;
-                }
-                x += dx;
-                y += dy; 
-            }
-            setInterval(draw, 10);
         </script>
     </div>
 </body>
 </html>
-<div id="root"></div>
