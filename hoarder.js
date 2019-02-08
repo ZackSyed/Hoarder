@@ -1,4 +1,4 @@
-
+import * as Player from './player';
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -84,19 +84,19 @@ document.addEventListener("DOMContentLoaded", () => {
         ctx.closePath(); 
     }
 
-    function drawPlayer() {
-        ctx.beginPath();
-        ctx.arc(playerX, playerY, playerRadius, 0, Math.PI*2);
-        ctx.strokeStyle = "black";
-        ctx.stroke();
-        ctx.closePath();
-    }
+    // function drawPlayer() {
+    //     ctx.beginPath();
+    //     ctx.arc(playerX, playerY, playerRadius, 0, Math.PI*2);
+    //     ctx.strokeStyle = "black";
+    //     ctx.stroke();
+    //     ctx.closePath();
+    // }
 
 
     function draw(){
         ctx.clearRect(0, 0, canvas.width, canvas.height);  
         drawBorder(); 
-        drawPlayer();
+        Player.drawPlayer(ctx, playerX, playerY, playerRadius);
         drawCircle();
         drawDots();
         if(x + dx > canvas.width-circleRadius || x + dx < circleRadius) {
