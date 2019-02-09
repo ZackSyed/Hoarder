@@ -1,68 +1,26 @@
-export const drawPlayer = (ctx, x, y, radius) => {
-    ctx.beginPath();
-    ctx.arc(x, y, radius, 0, Math.PI*2);
-    ctx.strokeStyle = "black";
-    ctx.stroke();
-    ctx.closePath();
-};
+class Player {
+    constructor(ctx, canvas) {
+        this.ctx = ctx;
+        this.canvas = canvas; 
+        this.parameters = {
+            x: 500,
+            y: 500,
+            radius: 40
+        }
+    }
 
-
-
-var rightPressed = false;
-var leftPressed = false;
-var upPressed = false; 
-var downPressed = false; 
-
-document.addEventListener("keydown", keyDownHandler, false);
-document.addEventListener("keyup", keyUpHandler, false);
-
-function keyDownHandler(e) {
-    switch (e.key) {
-        case ("ArrowRight"):
-            rightPressed = true; 
-            break;
-        case ("ArrowLeft"):
-            leftPressed = true;
-            break;
-        case ("ArrowUp"):
-            upPressed = true; 
-            break;
-        case ("ArrowDown"):
-            downPressed = true; 
-            break;
-        default:
-            break;
+    drawPlayer() {
+    let { x, y, radius } = this.parameters;
+        this.ctx.beginPath();
+        this.ctx.arc(x, y, radius, 0, Math.PI*2);
+        this.ctx.strokeStyle = "black";
+        this.ctx.stroke();
+        this.ctx.closePath();
     }
 }
 
-function keyUpHandler(e) {
-    switch (e.key) {
-        case ("ArrowRight"):
-            rightPressed = false; 
-            break;
-        case ("ArrowLeft"):
-            leftPressed = false;
-            break;
-        case ("ArrowUp"):
-            upPressed = false; 
-            break;
-        case ("ArrowDown"):
-            downPressed = false; 
-        default:
-            break;
-    }
-}
+export default Player; 
 
-
-if (rightPressed && playerX < canvas.width-playerRadius-150) {
-    playerX += 5;
-} else if (leftPressed && playerX > playerRadius + 150) {
-    playerX -= 5;
-} else if (upPressed && playerY > playerRadius + 150) {
-    playerY -= 5;
-} else if (downPressed && playerY < canvas.height-playerRadius-150) {
-    playerY += 5;
-}
 
 
 

@@ -1,24 +1,26 @@
-import * as Player from './player';
-
+import Player from './player';
+import Circle from './badCircle';
+import Dot from './dot';
 
 document.addEventListener("DOMContentLoaded", () => {
     var canvas = document.getElementById("myCanvas");
     var ctx = canvas.getContext("2d");
-    var x = canvas.width/2;
-    var y = canvas.height-30;
-    var playerX = 240;
-    var playerY = 160;
-    var playerRadius = 40; 
-    var circleRadius = 10;
-    var dotX = Math.floor(Math.random() * Math.floor(canvas.width - 10));
-    var dotY = Math.floor(Math.random() * Math.floor(canvas.height - 10));
-    var dotRadius = 10;
+    var dot = new Dot(ctx, canvas);
     var dx = 2;
     var dy = -2;
+    var player = new Player(ctx, canvas);
+    var circle = new Circle(ctx, canvas, dx, dy);
+
+    // movement
+    var dx = 2;
+    var dy = -2;
+
+
+    // key handler 
     var rightPressed = false;
     var leftPressed = false;
-    var upPressed = false; 
-    var downPressed = false; 
+    var upPressed = false;
+    var downPressed = false;
 
     document.addEventListener("keydown", keyDownHandler, false);
     document.addEventListener("keyup", keyUpHandler, false);
@@ -26,16 +28,16 @@ document.addEventListener("DOMContentLoaded", () => {
     function keyDownHandler(e) {
         switch (e.key) {
             case ("ArrowRight"):
-                rightPressed = true; 
+                rightPressed = true;
                 break;
             case ("ArrowLeft"):
                 leftPressed = true;
                 break;
             case ("ArrowUp"):
-                upPressed = true; 
+                upPressed = true;
                 break;
             case ("ArrowDown"):
-                downPressed = true; 
+                downPressed = true;
                 break;
             default:
                 break;
@@ -45,16 +47,16 @@ document.addEventListener("DOMContentLoaded", () => {
     function keyUpHandler(e) {
         switch (e.key) {
             case ("ArrowRight"):
-                rightPressed = false; 
+                rightPressed = false;
                 break;
             case ("ArrowLeft"):
                 leftPressed = false;
                 break;
             case ("ArrowUp"):
-                upPressed = false; 
+                upPressed = false;
                 break;
             case ("ArrowDown"):
-                downPressed = false; 
+                downPressed = false;
             default:
                 break;
         }
@@ -68,53 +70,24 @@ document.addEventListener("DOMContentLoaded", () => {
         ctx.closePath();
     }
 
-    function drawCircle() {
-        ctx.beginPath();
-        ctx.arc(x, y, circleRadius, 0, Math.PI*2);
-        ctx.fillStyle = "";
-        ctx.fill();
-        ctx.closePath();
-    }
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawBorder();
+        dot.drawDot();
+        player.drawPlayer();
+        circle.drawCircle();
+        circle.move();
+        // circle mechanics 
+        
 
-    function drawDots() {
-        ctx.beginPath();
-        ctx.arc(dotX, dotY, dotRadius, 0, Math.PI*2);
-        ctx.fillStyle = "blue";
-        ctx.fill();
-        ctx.closePath(); 
-    }
-
-    // function drawPlayer() {
-    //     ctx.beginPath();
-    //     ctx.arc(playerX, playerY, playerRadius, 0, Math.PI*2);
-    //     ctx.strokeStyle = "black";
-    //     ctx.stroke();
-    //     ctx.closePath();
-    // }
-
-
-    function draw(){
-        ctx.clearRect(0, 0, canvas.width, canvas.height);  
-        drawBorder(); 
-        Player.drawPlayer(ctx, playerX, playerY, playerRadius);
-        drawCircle();
-        drawDots();
-        if(x + dx > canvas.width-circleRadius || x + dx < circleRadius) {
-            dx = -dx;
-        } else if (y + dy > canvas.height-circleRadius || y + dy < circleRadius) {
-            dy = -dy;
-        }
-        x += dx;
-        y += dy; 
-
-    
-        if (rightPressed && playerX < canvas.width-playerRadius-150) {
+        // player movement and collision mechanics 
+        if (rightPressed && playerX < canvas.width - playerRadius - 150) {
             playerX += 5;
         } else if (leftPressed && playerX > playerRadius + 150) {
             playerX -= 5;
         } else if (upPressed && playerY > playerRadius + 150) {
             playerY -= 5;
-        } else if (downPressed && playerY < canvas.height-playerRadius-150) {
+        } else if (downPressed && playerY < canvas.height - playerRadius - 150) {
             playerY += 5;
         }
     }
