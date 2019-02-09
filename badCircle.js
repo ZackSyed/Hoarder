@@ -23,14 +23,13 @@ class Circle {
     }
 
     move() {
-        let { x, y, radius } = this.parameters;
-        if (x + this.dx > this.canvas.width - radius || x + this.dx < radius) {
+        if (this.parameters.x + this.dx > this.canvas.width - this.parameters.radius || this.parameters.x + this.dx < this.parameters.radius && this.dx !== 0) {
             this.dx = -this.dx;
-        } else if (y + this.dy > this.canvas.height - radius || y + this.dy < radius) {
+        } else if (this.parameters.y + this.dy > this.canvas.height - this.parameters.radius || this.parameters.y + this.dy < this.parameters.radius && this.dy !== 0) {
             this.dy = -this.dy;
         }
-        x += this.dx;
-        y += this.dy;
+        this.parameters.x += this.dx;
+        this.parameters.y += this.dy;
     }
 }
 

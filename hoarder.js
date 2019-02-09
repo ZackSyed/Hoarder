@@ -71,12 +71,9 @@ document.addEventListener("DOMContentLoaded", () => {
         player.drawPlayer();
         circle.drawCircle();
         circle.move();
-        // circle mechanics 
         
-
-        // player movement and collision mechanics 
+        // player movement and wall collision mechanics 
         if (rightPressed && player.parameters.x < canvas.width - player.parameters.radius - 150) {
-            debugger
             player.updatePosition("right", 5);
         } else if (leftPressed && player.parameters.x > player.parameters.radius + 150) {
             player.updatePosition("left", 5);
