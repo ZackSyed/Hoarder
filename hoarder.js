@@ -10,12 +10,6 @@ document.addEventListener("DOMContentLoaded", () => {
     var dy = -2;
     var player = new Player(ctx, canvas);
     var circle = new Circle(ctx, canvas, dx, dy);
-
-    // movement
-    var dx = 2;
-    var dy = -2;
-
-
     // key handler 
     var rightPressed = false;
     var leftPressed = false;
@@ -81,14 +75,15 @@ document.addEventListener("DOMContentLoaded", () => {
         
 
         // player movement and collision mechanics 
-        if (rightPressed && playerX < canvas.width - playerRadius - 150) {
-            playerX += 5;
-        } else if (leftPressed && playerX > playerRadius + 150) {
-            playerX -= 5;
-        } else if (upPressed && playerY > playerRadius + 150) {
-            playerY -= 5;
-        } else if (downPressed && playerY < canvas.height - playerRadius - 150) {
-            playerY += 5;
+        if (rightPressed && player.parameters.x < canvas.width - player.parameters.radius - 150) {
+            debugger
+            player.updatePosition("right", 5);
+        } else if (leftPressed && player.parameters.x > player.parameters.radius + 150) {
+            player.updatePosition("left", 5);
+        } else if (upPressed && player.parameters.y > player.parameters.radius + 150) {
+            player.updatePosition("up", 5);
+        } else if (downPressed && player.parameters.y < canvas.height - player.parameters.radius - 150) {
+            player.updatePosition("down", 5);
         }
     }
     setInterval(draw, 10);

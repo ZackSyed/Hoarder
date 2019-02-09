@@ -17,6 +17,25 @@ class Player {
         this.ctx.stroke();
         this.ctx.closePath();
     }
+
+    updatePosition(direction, num) {
+        switch (direction) {
+            case "right":
+                this.parameters.x += num;
+                break;
+            case "left":
+                this.parameters.x -= num;
+                break; 
+            case "up":
+                this.parameters.y -= num;
+                break; 
+            case "down":
+                this.parameters.y += num; 
+                break;
+            default:
+                break;
+        }
+    }
 }
 
 export default Player; 
