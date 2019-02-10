@@ -20,8 +20,10 @@ class Dot {
         this.ctx.closePath(); 
     };
 
-    // VerticalDots = (ctx, dotX, dotY, dotRadius) => {
-    // }
+    reposition() {
+        this.parameter.x = getRandomSpawn(850, 150);
+        this.parameter.y = getRandomSpawn(850, 150);
+    }
 
 }
 

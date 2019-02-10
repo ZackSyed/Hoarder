@@ -10,6 +10,8 @@ document.addEventListener("DOMContentLoaded", () => {
     var dy = -2;
     var player = new Player(ctx, canvas);
     var circle = new Circle(ctx, canvas, dx, dy);
+    var verticalCircle = new Circle(ctx, canvas, 0, 3);
+    var horizontalCircle = new Circle(ctx, canvas, 3);
     // key handler 
     var rightPressed = false;
     var leftPressed = false;
@@ -64,6 +66,10 @@ document.addEventListener("DOMContentLoaded", () => {
         ctx.closePath();
     }
 
+    function between(x, min, max) {
+        return x >= min && x <= max;
+    }
+
     function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         drawBorder();
@@ -71,7 +77,11 @@ document.addEventListener("DOMContentLoaded", () => {
         player.drawPlayer();
         circle.drawCircle();
         circle.move();
-        
+        verticalCircle.drawCircle();
+        verticalCircle.move();
+        horizontalCircle.drawCircle();
+        horizontalCircle.move();
+
         // player movement and wall collision mechanics 
         if (rightPressed && player.parameters.x < canvas.width - player.parameters.radius - 150) {
             player.updatePosition("right", 5);
@@ -82,6 +92,16 @@ document.addEventListener("DOMContentLoaded", () => {
         } else if (downPressed && player.parameters.y < canvas.height - player.parameters.radius - 150) {
             player.updatePosition("down", 5);
         }
+
+        // player collect dots 
+        if (between(dot.parameter.x, (player.parameters.x - player.parameters.radius), 
+            (player.parameters.x + player.parameters.radius)) ||
+        between(dot.parameter.y, (player.parameters.y - player.radius), 
+            (player.parameters.y + player.parameters.radius))) {
+                dot.reposition();
+                player.collision();
+        } 
+
     }
     setInterval(draw, 10);
 });

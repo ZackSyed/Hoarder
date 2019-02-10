@@ -7,6 +7,7 @@ class Player {
             y: 500,
             radius: 40
         }
+        this.score = 0; 
     }
 
     drawPlayer() {
@@ -35,6 +36,10 @@ class Player {
             default:
                 break;
         }
+    }
+
+    collision() {
+        this.score += 1; 
     }
 }
 
