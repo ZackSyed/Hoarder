@@ -421,6 +421,7 @@ class Player {
 
     if (this.score <= 0) {
       alert("game over");
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
   }
 
