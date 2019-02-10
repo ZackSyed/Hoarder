@@ -44,9 +44,9 @@ class Player {
 
     circleCollision() {
         this.score -= 3;
-        // if (this.score <= 0) {
-        //     alert("game over")
-        // }
+        if (this.score <= 0) {
+            alert("game over")
+        }
     }
 
     drawScore() {
