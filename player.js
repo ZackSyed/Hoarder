@@ -42,6 +42,13 @@ class Player {
         this.score += 1; 
     }
 
+    circleCollision() {
+        this.score -= 3;
+        // if (this.score <= 0) {
+        //     alert("game over")
+        // }
+    }
+
     drawScore() {
         this.ctx.font = "24px Arial";
         this.ctx.fillStyle = "#0095DD";

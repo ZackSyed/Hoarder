@@ -6,12 +6,10 @@ document.addEventListener("DOMContentLoaded", () => {
     var canvas = document.getElementById("myCanvas");
     var ctx = canvas.getContext("2d");
     var dot = new Dot(ctx, canvas);
-    var dx = 2;
-    var dy = -2;
     var player = new Player(ctx, canvas);
-    var circle = new Circle(ctx, canvas, dx, dy);
-    var verticalCircle = new Circle(ctx, canvas, 0, 3);
-    var horizontalCircle = new Circle(ctx, canvas, 3);
+    const circles = []; 
+    // var startCircle = new Circle(ctx, canvas, dx, dy);
+    // circles.push(startCircle);
     // key handler 
     var rightPressed = false;
     var leftPressed = false;
@@ -66,27 +64,33 @@ document.addEventListener("DOMContentLoaded", () => {
         ctx.closePath();
     }
 
+    function drawHeader() {
+        ctx.font = "40px Arial";
+        ctx.fillStyle = "black";
+        ctx.fillText("Hoarder", 425, 90)
+    }
+
     function between(x, min, max) {
         return x >= min && x <= max;
     }
 
-    // function addScoreToDocument() {
-    //     var scoreBox = document.getElementById("score");
-    //     var scoreContent = document.createTextNode(`Score: ${player.score}`)
-    //     scoreBox.appendChild(scoreContent);
-    // }
+    // high score functionality, call in game over mechanics
+    function addHighscoreToDocument() {
+        var highScoreBox = document.getElementById("high-score-list");
+        var highScoreContent = document.createTextNode(`${player.score}`)
+        highScoreBox.appendChild(highScoreContent);
+    }
 
     function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawHeader();
         drawBorder();
         dot.drawDot();
         player.drawPlayer();
-        circle.drawCircle();
-        circle.move();
-        verticalCircle.drawCircle();
-        verticalCircle.move();
-        horizontalCircle.drawCircle();
-        horizontalCircle.move();
+        circles.forEach(circle => {
+            circle.drawCircle();
+            circle.move();  
+        });
         player.drawScore();
 
         // player movement and wall collision mechanics 
@@ -107,8 +111,18 @@ document.addEventListener("DOMContentLoaded", () => {
             (player.parameters.y + player.parameters.radius))) {
                 dot.reposition();
                 player.collision();
+                circles.push(new Circle(ctx, canvas, 0, 5));
         } 
 
+        // circle collision 
+        circles.forEach(circle => {
+            if (between(circle.parameters.x, (player.parameters.x - player.parameters.radius), 
+            (player.parameters.x + player.parameters.radius)) &&
+        between(circle.parameters.y, (player.parameters.y - player.parameters.radius), 
+            (player.parameters.y + player.parameters.radius))) {
+                player.circleCollision();
+            }
+        });
     }
     setInterval(draw, 10);
 });

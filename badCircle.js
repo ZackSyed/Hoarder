@@ -1,11 +1,11 @@
-import { getRandomSpawn } from './helper';
+import { getRandomSpawn, getRandomNegMovement } from './helper';
 
 class Circle {
     constructor(ctx, canvas, dx, dy) {
         this.ctx = ctx;
         this.canvas = canvas;
-        this.dx = dx || 0;
-        this.dy = dy || 0; 
+        this.dx = getRandomNegMovement();
+        this.dy = getRandomNegMovement(); 
         this.parameters = {
             x: getRandomSpawn(850, 150),
             y: getRandomSpawn(825, 150),
