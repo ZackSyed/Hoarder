@@ -70,11 +70,11 @@ document.addEventListener("DOMContentLoaded", () => {
         return x >= min && x <= max;
     }
 
-    function addScoreToDocument() {
-        var scoreBox = document.createElement("div");
-        var scoreContent = document.createTextNode(`Score: ${player.score}`)
-        scoreBox.appendChild
-    }
+    // function addScoreToDocument() {
+    //     var scoreBox = document.getElementById("score");
+    //     var scoreContent = document.createTextNode(`Score: ${player.score}`)
+    //     scoreBox.appendChild(scoreContent);
+    // }
 
     function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -87,6 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
         verticalCircle.move();
         horizontalCircle.drawCircle();
         horizontalCircle.move();
+        player.drawScore();
 
         // player movement and wall collision mechanics 
         if (rightPressed && player.parameters.x < canvas.width - player.parameters.radius - 150) {
