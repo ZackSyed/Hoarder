@@ -70,6 +70,12 @@ document.addEventListener("DOMContentLoaded", () => {
         return x >= min && x <= max;
     }
 
+    function addScoreToDocument() {
+        var scoreBox = document.createElement("div");
+        var scoreContent = document.createTextNode(`Score: ${player.score}`)
+        scoreBox.appendChild
+    }
+
     function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         drawBorder();
@@ -95,8 +101,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // player collect dots 
         if (between(dot.parameter.x, (player.parameters.x - player.parameters.radius), 
-            (player.parameters.x + player.parameters.radius)) ||
-        between(dot.parameter.y, (player.parameters.y - player.radius), 
+            (player.parameters.x + player.parameters.radius)) &&
+        between(dot.parameter.y, (player.parameters.y - player.parameters.radius), 
             (player.parameters.y + player.parameters.radius))) {
                 dot.reposition();
                 player.collision();
