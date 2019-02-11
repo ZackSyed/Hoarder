@@ -99,14 +99,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class Circle {
-  constructor(ctx, canvas, dx, dy) {
+  constructor(ctx, canvas) {
     this.ctx = ctx;
     this.canvas = canvas;
     this.dx = Object(_helper__WEBPACK_IMPORTED_MODULE_0__["getRandomNegMovement"])();
     this.dy = Object(_helper__WEBPACK_IMPORTED_MODULE_0__["getRandomNegMovement"])();
     this.parameters = {
-      x: Object(_helper__WEBPACK_IMPORTED_MODULE_0__["getRandomSpawn"])(850, 150),
-      y: Object(_helper__WEBPACK_IMPORTED_MODULE_0__["getRandomSpawn"])(825, 150),
+      x: Object(_helper__WEBPACK_IMPORTED_MODULE_0__["getRandomSpawn"])(700, 120),
+      y: Object(_helper__WEBPACK_IMPORTED_MODULE_0__["getRandomSpawn"])(700, 120),
       radius: 10
     };
   }
@@ -135,6 +135,11 @@ class Circle {
     this.parameters.y += this.dy;
   }
 
+  collision() {
+    this.dy = -this.dy;
+    this.dx = -this.dx;
+  }
+
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (Circle);
@@ -158,8 +163,8 @@ class Dot {
     this.ctx = ctx;
     this.canvas = canvas;
     this.parameter = {
-      x: Object(_helper__WEBPACK_IMPORTED_MODULE_0__["getRandomSpawn"])(850, 150),
-      y: Object(_helper__WEBPACK_IMPORTED_MODULE_0__["getRandomSpawn"])(825, 150),
+      x: Object(_helper__WEBPACK_IMPORTED_MODULE_0__["getRandomSpawn"])(700, 120),
+      y: Object(_helper__WEBPACK_IMPORTED_MODULE_0__["getRandomSpawn"])(700, 120),
       radius: 10
     };
   }
@@ -178,8 +183,8 @@ class Dot {
   }
 
   reposition() {
-    this.parameter.x = Object(_helper__WEBPACK_IMPORTED_MODULE_0__["getRandomSpawn"])(850, 150);
-    this.parameter.y = Object(_helper__WEBPACK_IMPORTED_MODULE_0__["getRandomSpawn"])(850, 150);
+    this.parameter.x = Object(_helper__WEBPACK_IMPORTED_MODULE_0__["getRandomSpawn"])(700, 120);
+    this.parameter.y = Object(_helper__WEBPACK_IMPORTED_MODULE_0__["getRandomSpawn"])(700, 120);
   }
 
 }
@@ -192,7 +197,7 @@ class Dot {
 /*!*******************!*\
   !*** ./helper.js ***!
   \*******************/
-/*! exports provided: getRandomSpawn, getRandomMovement, getRandomNegMovement */
+/*! exports provided: getRandomSpawn, getRandomMovement, getRandomNegMovement, between */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -200,6 +205,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getRandomSpawn", function() { return getRandomSpawn; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getRandomMovement", function() { return getRandomMovement; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getRandomNegMovement", function() { return getRandomNegMovement; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "between", function() { return between; });
 const getRandomSpawn = (max, min) => {
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
@@ -208,6 +214,9 @@ const getRandomMovement = () => {
 };
 const getRandomNegMovement = () => {
   return -Math.floor(Math.random() * 4);
+};
+const between = (x, min, max) => {
+  return x >= min && x <= max;
 };
 
 /***/ }),
@@ -224,6 +233,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _player__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./player */ "./player.js");
 /* harmony import */ var _badCircle__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./badCircle */ "./badCircle.js");
 /* harmony import */ var _dot__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./dot */ "./dot.js");
+/* harmony import */ var _helper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./helper */ "./helper.js");
+
 
 
 
@@ -232,9 +243,7 @@ document.addEventListener("DOMContentLoaded", () => {
   var ctx = canvas.getContext("2d");
   var dot = new _dot__WEBPACK_IMPORTED_MODULE_2__["default"](ctx, canvas);
   var player = new _player__WEBPACK_IMPORTED_MODULE_0__["default"](ctx, canvas);
-  const circles = []; // var startCircle = new Circle(ctx, canvas, dx, dy);
-  // circles.push(startCircle);
-  // key handler 
+  let circles = []; // key handler 
 
   var rightPressed = false;
   var leftPressed = false;
@@ -290,7 +299,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function drawBorder() {
     ctx.beginPath();
-    ctx.rect(150, 150, 700, 700);
+    ctx.rect(100, 100, 600, 600);
     ctx.fillStyle = "black";
     ctx.stroke();
     ctx.closePath();
@@ -299,11 +308,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function drawHeader() {
     ctx.font = "40px Arial";
     ctx.fillStyle = "black";
-    ctx.fillText("Hoarder", 425, 90);
-  }
-
-  function between(x, min, max) {
-    return x >= min && x <= max;
+    ctx.fillText("Hoarder", 300, 90);
   } // high score functionality, call in game over mechanics
 
 
@@ -311,6 +316,14 @@ document.addEventListener("DOMContentLoaded", () => {
     var highScoreBox = document.getElementById("high-score-list");
     var highScoreContent = document.createTextNode(`${player.score}`);
     highScoreBox.appendChild(highScoreContent);
+  }
+
+  function colliding(circle) {
+    if (Object(_helper__WEBPACK_IMPORTED_MODULE_3__["between"])(circle.parameters.x, player.parameters.x - player.parameters.radius, player.parameters.x + player.parameters.radius) && Object(_helper__WEBPACK_IMPORTED_MODULE_3__["between"])(circle.parameters.y, player.parameters.y - player.parameters.radius, player.parameters.y + player.parameters.radius)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   function draw() {
@@ -325,18 +338,18 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     player.drawScore(); // player movement and wall collision mechanics 
 
-    if (rightPressed && player.parameters.x < canvas.width - player.parameters.radius - 150) {
+    if (rightPressed && player.parameters.x < canvas.width - player.parameters.radius) {
       player.updatePosition("right", 5);
-    } else if (leftPressed && player.parameters.x > player.parameters.radius + 150) {
+    } else if (leftPressed && player.parameters.x > player.parameters.radius + 100) {
       player.updatePosition("left", 5);
-    } else if (upPressed && player.parameters.y > player.parameters.radius + 150) {
+    } else if (upPressed && player.parameters.y > player.parameters.radius + 100) {
       player.updatePosition("up", 5);
-    } else if (downPressed && player.parameters.y < canvas.height - player.parameters.radius - 150) {
+    } else if (downPressed && player.parameters.y < canvas.height - player.parameters.radius) {
       player.updatePosition("down", 5);
     } // player collect dots 
 
 
-    if (between(dot.parameter.x, player.parameters.x - player.parameters.radius, player.parameters.x + player.parameters.radius) && between(dot.parameter.y, player.parameters.y - player.parameters.radius, player.parameters.y + player.parameters.radius)) {
+    if (Object(_helper__WEBPACK_IMPORTED_MODULE_3__["between"])(dot.parameter.x, player.parameters.x - player.parameters.radius, player.parameters.x + player.parameters.radius) && Object(_helper__WEBPACK_IMPORTED_MODULE_3__["between"])(dot.parameter.y, player.parameters.y - player.parameters.radius, player.parameters.y + player.parameters.radius)) {
       dot.reposition();
       player.collision();
       circles.push(new _badCircle__WEBPACK_IMPORTED_MODULE_1__["default"](ctx, canvas, 0, 5));
@@ -344,8 +357,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     circles.forEach(circle => {
-      if (between(circle.parameters.x, player.parameters.x - player.parameters.radius, player.parameters.x + player.parameters.radius) && between(circle.parameters.y, player.parameters.y - player.parameters.radius, player.parameters.y + player.parameters.radius)) {
+      if (colliding(circle)) {
         player.circleCollision();
+        circle.collision();
+
+        if (player.score <= 0) {
+          circles = [];
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          alert("Game over");
+        }
       }
     });
   }
@@ -369,8 +389,8 @@ class Player {
     this.ctx = ctx;
     this.canvas = canvas;
     this.parameters = {
-      x: 500,
-      y: 500,
+      x: 400,
+      y: 400,
       radius: 40
     };
     this.score = 0;
@@ -417,18 +437,17 @@ class Player {
   }
 
   circleCollision() {
-    this.score -= 3;
+    this.score -= 1;
 
-    if (this.score <= 0) {
-      alert("game over");
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if (this.score < 0) {
+      this.score = 0;
     }
   }
 
   drawScore() {
     this.ctx.font = "24px Arial";
     this.ctx.fillStyle = "#0095DD";
-    this.ctx.fillText("Score: " + this.score, 750, 120);
+    this.ctx.fillText("Score: " + this.score, 500, 80);
   }
 
 }

@@ -1,14 +1,14 @@
 import { getRandomSpawn, getRandomNegMovement } from './helper';
 
 class Circle {
-    constructor(ctx, canvas, dx, dy) {
+    constructor(ctx, canvas) {
         this.ctx = ctx;
         this.canvas = canvas;
         this.dx = getRandomNegMovement();
         this.dy = getRandomNegMovement(); 
         this.parameters = {
-            x: getRandomSpawn(850, 150),
-            y: getRandomSpawn(825, 150),
+            x: getRandomSpawn(700, 120),
+            y: getRandomSpawn(700, 120),
             radius: 10
         }
     }
@@ -30,6 +30,11 @@ class Circle {
         }
         this.parameters.x += this.dx;
         this.parameters.y += this.dy;
+    }
+
+    collision() {
+        this.dy = -this.dy;
+        this.dx = -this.dx;
     }
 }
 

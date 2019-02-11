@@ -9,3 +9,7 @@ export const getRandomMovement = () => {
 export const getRandomNegMovement = () => {
     return -(Math.floor(Math.random() * (4)))
 }
+
+export const between = (x, min, max) => {
+    return x >= min && x <= max;
+}

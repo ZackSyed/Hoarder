@@ -3,8 +3,8 @@ class Player {
         this.ctx = ctx;
         this.canvas = canvas; 
         this.parameters = {
-            x: 500,
-            y: 500,
+            x: 400,
+            y: 400,
             radius: 40
         }
         this.score = 0; 
@@ -43,17 +43,16 @@ class Player {
     }
 
     circleCollision() {
-        this.score -= 3;
-        if (this.score <= 0) {
-            alert("game over")
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        this.score -= 1;
+        if (this.score < 0) {
+            this.score = 0; 
         }
     }
 
     drawScore() {
         this.ctx.font = "24px Arial";
         this.ctx.fillStyle = "#0095DD";
-        this.ctx.fillText("Score: "+this.score, 750, 120);
+        this.ctx.fillText("Score: "+this.score, 500, 80);
     }
 }
 
