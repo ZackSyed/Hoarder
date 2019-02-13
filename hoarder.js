@@ -1,7 +1,6 @@
 import Player from './player';
 import Circle from './badCircle';
 import Dot from './dot';
-import { between } from './helper';
 
 document.addEventListener("DOMContentLoaded", () => {
     var canvas = document.getElementById("myCanvas");
@@ -57,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function drawBorder() {
         ctx.beginPath();
-        ctx.rect(100, 100, 600, 600);
+        ctx.rect(100, 100, 500, 500);
         ctx.fillStyle = "black";
         ctx.stroke();
         ctx.closePath();
@@ -76,13 +75,34 @@ document.addEventListener("DOMContentLoaded", () => {
         highScoreBox.appendChild(highScoreContent);
     }
 
-    function colliding(circle) {
-        if (between(circle.parameters.x, (player.parameters.x - player.parameters.radius), 
-            (player.parameters.x + player.parameters.radius)) &&
-        between(circle.parameters.y, (player.parameters.y - player.parameters.radius), 
-            (player.parameters.y + player.parameters.radius))) {
-                return true 
-            } else { return false } 
+    function colliding(object) {
+        // if (between(circle.parameters.x, (player.parameters.x - player.parameters.radius), 
+        //     (player.parameters.x + player.parameters.radius)) &&
+        // between(circle.parameters.y, (player.parameters.y - player.parameters.radius), 
+        //     (player.parameters.y + player.parameters.radius))) {
+        //         return true 
+        //     } else { return false } 
+
+        let dx = (object.parameters.x - player.parameters.x);
+        let dy = (object.parameters.y - player.parameters.y);
+        let drad = (object.parameters.radius + player.parameters.radius);
+
+        if (Math.sqrt((dx * dx) + (dy * dy)) < (drad)) {
+            return true 
+        } else {
+            return false
+        }
+    }
+    
+
+    function invincible() {
+        circles.forEach( circle, idx => {
+            if (colliding(circle)) {
+                circles.splice(idx, 1)
+            } else {
+                continue; 
+            }
+        })
     }
 
     function draw() {
@@ -98,21 +118,18 @@ document.addEventListener("DOMContentLoaded", () => {
         player.drawScore();
 
         // player movement and wall collision mechanics 
-        if (rightPressed && player.parameters.x < canvas.width - player.parameters.radius) {
+        if (rightPressed && player.parameters.x < canvas.width - player.parameters.radius - 100) {
             player.updatePosition("right", 5);
         } else if (leftPressed && player.parameters.x > player.parameters.radius + 100) {
             player.updatePosition("left", 5);
         } else if (upPressed && player.parameters.y > player.parameters.radius + 100) {
             player.updatePosition("up", 5);
-        } else if (downPressed && player.parameters.y < canvas.height - player.parameters.radius) {
+        } else if (downPressed && player.parameters.y < canvas.height - player.parameters.radius - 100) {
             player.updatePosition("down", 5);
         }
 
         // player collect dots 
-        if (between(dot.parameter.x, (player.parameters.x - player.parameters.radius), 
-            (player.parameters.x + player.parameters.radius)) &&
-        between(dot.parameter.y, (player.parameters.y - player.parameters.radius), 
-            (player.parameters.y + player.parameters.radius))) {
+        if (colliding(dot)) {
                 dot.reposition();
                 player.collision();
                 circles.push(new Circle(ctx, canvas, 0, 5));
@@ -126,7 +143,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (player.score <= 0) {
                     circles = [];
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    alert("Game over");
+                    // alert("Game over");
+                    location.reload();
                 } 
             } 
         });

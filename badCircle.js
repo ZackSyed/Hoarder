@@ -1,15 +1,36 @@
 import { getRandomSpawn, getRandomNegMovement } from './helper';
 
 class Circle {
-    constructor(ctx, canvas) {
+    constructor(ctx, canvas, player) {
         this.ctx = ctx;
+        this.player = player;
         this.canvas = canvas;
         this.dx = getRandomNegMovement();
         this.dy = getRandomNegMovement(); 
         this.parameters = {
-            x: getRandomSpawn(700, 120),
-            y: getRandomSpawn(700, 120),
+            x: this.setInitialX(),
+            y: this.setInitialY(),
             radius: 10
+        }
+    }
+
+    setInitialX() {
+        let { radius, x } = this.player;
+        let initX = getRandomSpawn(600, 120);
+        if (initX === x + radius || x - radius) {
+            return initX = getRandomSpawn(600, 120);
+        } else {
+            return initX;
+        }
+    }
+
+    setInitialY() {
+        let { radius, y } = this.player;
+        let initY = getRandomSpawn(600, 120);
+        if (initY === y + radius || y - radius) {
+            return initY = getRandomSpawn(600, 120);
+        } else {
+            return initY;
         }
     }
 
