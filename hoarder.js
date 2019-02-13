@@ -95,13 +95,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
 
-    function invincible() {
+    function playerInvincible() {
         circles.forEach( circle, idx => {
             if (colliding(circle)) {
                 circles.splice(idx, 1)
-            } else {
-                continue; 
-            }
+            } 
         })
     }
 
@@ -148,6 +146,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 } 
             } 
         });
+
+
+        // switch (player.score) {
+        //     case 10:
+        //         playerInvincible();
+        //         break;
+        //     default:
+        //         break;
+        // }
     }
     setInterval(draw, 10);
 });
