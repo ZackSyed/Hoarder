@@ -8,7 +8,13 @@ document.addEventListener("DOMContentLoaded", () => {
     var dot = new Dot(ctx, canvas);
     var player = new Player(ctx, canvas);
     let circles = []; 
-    // key handler 
+    var background = new Image();
+    background.src = "./app/assets/game-boy.jpg";
+
+    background.onload = function(){
+        ctx.drawImage(background,0,0);   
+    }   
+    // key handler  
     var rightPressed = false;
     var leftPressed = false;
     var upPressed = false;
@@ -66,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ctx.font = "40px Arial";
         ctx.fillStyle = "black";
         ctx.fillText("Hoarder", 300, 90)
-    }
+    }   
 
      // high score functionality, call in game over mechanics
     function addHighscoreToDocument() {

@@ -3,14 +3,15 @@
 #myCanvas {
     background-color: "red";
     align-self: center; 
+    /* background-image: url("./assets/game-boy.jpg") */
 }
 
 #root {
     display: flex; 
     flex-direction: row;
-    /* background-image: url("../assets/background.jpg") */
+    /* background-image: url("../assets/game-boy.jpg") */
 }
 
-.background-gameboy{
+/* .background-gameboy{
     
-}
+} */

@@ -18,8 +18,10 @@ class Circle {
         let { radius, x } = this.player;
         let initX = getRandomSpawn(600, 120);
         if (initX === x + radius || x - radius) {
+            debugger
             return initX = getRandomSpawn(600, 120);
         } else {
+            debugger
             return initX;
         }
     }
@@ -54,8 +56,8 @@ class Circle {
     }
 
     collision() {
-        this.dy = -this.dy;
-        this.dx = -this.dx;
+        this.dy = -this.dy + 2;
+        this.dx = -this.dx + 2;
     }
 }
 

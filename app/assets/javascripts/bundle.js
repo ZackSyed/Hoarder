@@ -120,8 +120,10 @@ class Circle {
     let initX = Object(_helper__WEBPACK_IMPORTED_MODULE_0__["getRandomSpawn"])(600, 120);
 
     if (initX === x + radius || x - radius) {
+      debugger;
       return initX = Object(_helper__WEBPACK_IMPORTED_MODULE_0__["getRandomSpawn"])(600, 120);
     } else {
+      debugger;
       return initX;
     }
   }
@@ -165,8 +167,8 @@ class Circle {
   }
 
   collision() {
-    this.dy = -this.dy;
-    this.dx = -this.dx;
+    this.dy = -this.dy + 2;
+    this.dx = -this.dx + 2;
   }
 
 }
@@ -270,7 +272,14 @@ document.addEventListener("DOMContentLoaded", () => {
   var ctx = canvas.getContext("2d");
   var dot = new _dot__WEBPACK_IMPORTED_MODULE_2__["default"](ctx, canvas);
   var player = new _player__WEBPACK_IMPORTED_MODULE_0__["default"](ctx, canvas);
-  let circles = []; // key handler 
+  let circles = [];
+  var background = new Image();
+  background.src = "./app/assets/game-boy.jpg";
+
+  background.onload = function () {
+    ctx.drawImage(background, 0, 0);
+  }; // key handler  
+
 
   var rightPressed = false;
   var leftPressed = false;
