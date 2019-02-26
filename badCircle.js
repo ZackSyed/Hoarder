@@ -15,21 +15,18 @@ class Circle {
     }
 
     setInitialX() {
-        let { radius, x } = this.player;
+
         let initX = getRandomSpawn(600, 120);
-        if (initX === x + radius || x - radius) {
-            debugger
+        if (initX === this.player.parameters.x + this.player.parameters.radius + 10 || initX === this.player.parameters.x - this.player.parameters.radius + 10) {
             return initX = getRandomSpawn(600, 120);
         } else {
-            debugger
             return initX;
         }
     }
 
     setInitialY() {
-        let { radius, y } = this.player;
         let initY = getRandomSpawn(600, 120);
-        if (initY === y + radius || y - radius) {
+        if (initY === this.player.parameters.y + this.player.parameters.radius + 10 || initY === this.player.parameters.y - this.player.parameters.radius + 10) {
             return initY = getRandomSpawn(600, 120);
         } else {
             return initY;
@@ -56,8 +53,8 @@ class Circle {
     }
 
     collision() {
-        this.dy = -this.dy + 2;
-        this.dx = -this.dx + 2;
+        this.dy = -this.dy + 1;
+        this.dx = -this.dx + 1;
     }
 }
 

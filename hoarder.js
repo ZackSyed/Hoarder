@@ -1,6 +1,7 @@
 import Player from './player';
 import Circle from './badCircle';
 import Dot from './dot';
+import { fetchScore, postScore } from './util';
 
 document.addEventListener("DOMContentLoaded", () => {
     var canvas = document.getElementById("myCanvas");
@@ -8,17 +9,35 @@ document.addEventListener("DOMContentLoaded", () => {
     var dot = new Dot(ctx, canvas);
     var player = new Player(ctx, canvas);
     let circles = []; 
-    var background = new Image();
-    background.src = "./app/assets/game-boy.jpg";
-
-    background.onload = function(){
-        ctx.drawImage(background,0,0);   
-    }   
+    
     // key handler  
     var rightPressed = false;
     var leftPressed = false;
     var upPressed = false;
     var downPressed = false;
+    // var leftUpDiagonalPressed = false;
+    // var leftDownDiagonalPressed = false;
+    // var rightUpDiagonalPressed = false;
+    // var rightDownDiagonalPressed = false;
+
+    // var scoreboard = [];
+    // fetchScore().then(score => {
+    //         debugger
+    //         var highScoreBox = document.getElementById("high-score-list");
+    //         scoreboard = Object.entries(score);
+    //         for (let i = 0; i < scoreboard.length; i++) {
+    //             debugger
+    //             if (scoreboard[i].typeOf === 'object') {
+    //                 debugger
+    //                 let myScores = Object.entries(scoreboard[i]);
+    //                 debugger
+    //             }
+    //             // var highScoreContent = document.createTextNode(`score: ${scoreboard[i].score}`)
+    //             // debugger
+    //             // highScoreBox.appendChild(highScoreContent);
+    //         }
+    //     }
+    // )
 
     document.addEventListener("keydown", keyDownHandler, false);
     document.addEventListener("keyup", keyUpHandler, false);
@@ -37,6 +56,22 @@ document.addEventListener("DOMContentLoaded", () => {
             case ("ArrowDown"):
                 downPressed = true;
                 break;
+            // case ("ArrowLeft"):
+            // case ("ArrowUp"):
+            //     leftUpDiagonalPressed = true;
+            //     break;
+            // case ("ArrowLeft"):
+            // case ("ArrowDown"):
+            //     leftDownDiagonalPressed = true;
+            //     break;
+            // case ("ArrowRight"):
+            // case ("ArrowUp"):
+            //     rightUpDiagonalPressed = true;
+            //     break;
+            // case ("ArrowRight"):
+            // case ("ArrowDown"):
+            //     rightDownDiagonalPressed = true;
+            //     break;
             default:
                 break;
         }
@@ -55,6 +90,22 @@ document.addEventListener("DOMContentLoaded", () => {
                 break;
             case ("ArrowDown"):
                 downPressed = false;
+            // case ("ArrowLeft"):
+            // case ("ArrowUp"):
+            //     leftUpDiagonalPressed = false;
+            //     break;
+            // case ("ArrowLeft"):
+            // case ("ArrowDown"):
+            //     leftDownDiagonalPressed = false;
+            //     break;
+            // case ("ArrowRight"):
+            // case ("ArrowUp"):
+            //     rightUpDiagonalPressed = true;
+            //     break;
+            // case ("ArrowRight"):
+            // case ("ArrowDown"):
+            //     rightDownDiagonalPressed = false;
+            //     break;
             default:
                 break;
         }
@@ -75,11 +126,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }   
 
      // high score functionality, call in game over mechanics
-    function addHighscoreToDocument() {
-        var highScoreBox = document.getElementById("high-score-list");
-        var highScoreContent = document.createTextNode(`${player.score}`)
-        highScoreBox.appendChild(highScoreContent);
-    }
+    // function addHighscoreToDocument() {
+    //     var highScoreBox = document.getElementById("high-score-list");
+    //     var highScoreContent = document.createTextNode(`${}`)
+    //     highScoreBox.appendChild(highScoreContent);
+    // }
 
     function colliding(object) {
         // if (between(circle.parameters.x, (player.parameters.x - player.parameters.radius), 
@@ -104,7 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function playerInvincible() {
         circles.forEach( circle, idx => {
             if (colliding(circle)) {
-                circles.splice(idx, 1)
+               circles = circles.slice(idx, 1)
             } 
         })
     }
@@ -120,6 +171,8 @@ document.addEventListener("DOMContentLoaded", () => {
             circle.move();  
         });
         player.drawScore();
+        // player.drawTimer();
+        // player.increaseTimer();
 
         // player movement and wall collision mechanics 
         if (rightPressed && player.parameters.x < canvas.width - player.parameters.radius - 100) {
@@ -130,13 +183,21 @@ document.addEventListener("DOMContentLoaded", () => {
             player.updatePosition("up", 5);
         } else if (downPressed && player.parameters.y < canvas.height - player.parameters.radius - 100) {
             player.updatePosition("down", 5);
-        }
+        // } else if (leftUpDiagonalPressed && player.parameters.x > player.parameters.radius + 100 && player.parameters.y > player.parameters.radius + 100 ) {
+        //     player.updatePosition("leftUp", 5);
+        // } else if (leftDownDiagonalPressed && player.parameters.x > player.parameters.radius + 100 && player.parameters.y < canvas.height - player.parameters.radius - 100) {
+        //     player.updatePosition("leftDown", 5);
+        // } else if (rightUpDiagonalPressed && player.parameters.x < canvas.width - player.parameters.radius - 100 && player.parameters.y > player.parameters.radius + 100) {
+        //     player.updatePosition("rightUp", 5);
+        // } else if (rightDownDiagonalPressed && player.parameters.x < canvas.width - player.parameters.radius - 100 && player.parameters.y < canvas.height - player.parameters.radius - 100) {
+        //     player.updatePosition("rightDown", 5);
+        // }
 
         // player collect dots 
         if (colliding(dot)) {
                 dot.reposition();
                 player.collision();
-                circles.push(new Circle(ctx, canvas, 0, 5));
+                circles.push(new Circle(ctx, canvas, player));
         } 
 
         // circle collision 
@@ -149,18 +210,18 @@ document.addEventListener("DOMContentLoaded", () => {
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
                     // alert("Game over");
                     location.reload();
+                    addHighscoreToDocument();
                 } 
             } 
         });
 
-
-        // switch (player.score) {
-        //     case 10:
-        //         playerInvincible();
-        //         break;
-        //     default:
-        //         break;
-        // }
+        switch (player.score) {
+            case 10:
+                playerInvincible();
+                break;
+            default:
+                break;
+        }
     }
     setInterval(draw, 10);
 });

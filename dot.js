@@ -5,8 +5,8 @@ class Dot {
         this.ctx = ctx;
         this.canvas = canvas; 
         this.parameters = {
-            x: getRandomSpawn(600, 120),
-            y: getRandomSpawn(600, 120),
+            x: getRandomSpawn(550, 120),
+            y: getRandomSpawn(550, 120),
             radius: 10
         }
     }
@@ -21,8 +21,8 @@ class Dot {
     };
 
     reposition() {
-        this.parameters.x = getRandomSpawn(600, 120);
-        this.parameters.y = getRandomSpawn(600, 120);
+        this.parameters.x = getRandomSpawn(550, 120);
+        this.parameters.y = getRandomSpawn(550, 120);
     }
 
 }

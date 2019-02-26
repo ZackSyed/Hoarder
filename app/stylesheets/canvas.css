@@ -1,17 +1,19 @@
-
-
 #myCanvas {
     background-color: "red";
     align-self: center; 
-    /* background-image: url("./assets/game-boy.jpg") */
 }
 
 #root {
     display: flex; 
     flex-direction: row;
-    /* background-image: url("../assets/game-boy.jpg") */
+    background-color: black;
 }
-
-/* .background-gameboy{
-    
+/* 
+body {
+    background-colo;
 } */
+
+#highscore {
+    color: red;
+    font-size:  30px; 
+}
