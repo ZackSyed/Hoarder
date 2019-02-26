@@ -15,10 +15,10 @@ document.addEventListener("DOMContentLoaded", () => {
     var leftPressed = false;
     var upPressed = false;
     var downPressed = false;
-    // var leftUpDiagonalPressed = false;
-    // var leftDownDiagonalPressed = false;
-    // var rightUpDiagonalPressed = false;
-    // var rightDownDiagonalPressed = false;
+    var leftUpDiagonalPressed = false;
+    var leftDownDiagonalPressed = false;
+    var rightUpDiagonalPressed = false;
+    var rightDownDiagonalPressed = false;
 
     // var scoreboard = [];
     // fetchScore().then(score => {
@@ -56,22 +56,22 @@ document.addEventListener("DOMContentLoaded", () => {
             case ("ArrowDown"):
                 downPressed = true;
                 break;
-            // case ("ArrowLeft"):
-            // case ("ArrowUp"):
-            //     leftUpDiagonalPressed = true;
-            //     break;
-            // case ("ArrowLeft"):
-            // case ("ArrowDown"):
-            //     leftDownDiagonalPressed = true;
-            //     break;
-            // case ("ArrowRight"):
-            // case ("ArrowUp"):
-            //     rightUpDiagonalPressed = true;
-            //     break;
-            // case ("ArrowRight"):
-            // case ("ArrowDown"):
-            //     rightDownDiagonalPressed = true;
-            //     break;
+            case ("ArrowLeft"):
+            case ("ArrowUp"):
+                leftUpDiagonalPressed = true;
+                break;
+            case ("ArrowLeft"):
+            case ("ArrowDown"):
+                leftDownDiagonalPressed = true;
+                break;
+            case ("ArrowRight"):
+            case ("ArrowUp"):
+                rightUpDiagonalPressed = true;
+                break;
+            case ("ArrowRight"):
+            case ("ArrowDown"):
+                rightDownDiagonalPressed = true;
+                break;
             default:
                 break;
         }
@@ -90,22 +90,22 @@ document.addEventListener("DOMContentLoaded", () => {
                 break;
             case ("ArrowDown"):
                 downPressed = false;
-            // case ("ArrowLeft"):
-            // case ("ArrowUp"):
-            //     leftUpDiagonalPressed = false;
-            //     break;
-            // case ("ArrowLeft"):
-            // case ("ArrowDown"):
-            //     leftDownDiagonalPressed = false;
-            //     break;
-            // case ("ArrowRight"):
-            // case ("ArrowUp"):
-            //     rightUpDiagonalPressed = true;
-            //     break;
-            // case ("ArrowRight"):
-            // case ("ArrowDown"):
-            //     rightDownDiagonalPressed = false;
-            //     break;
+            case ("ArrowLeft"):
+            case ("ArrowUp"):
+                leftUpDiagonalPressed = false;
+                break;
+            case ("ArrowLeft"):
+            case ("ArrowDown"):
+                leftDownDiagonalPressed = false;
+                break;
+            case ("ArrowRight"):
+            case ("ArrowUp"):
+                rightUpDiagonalPressed = true;
+                break;
+            case ("ArrowRight"):
+            case ("ArrowDown"):
+                rightDownDiagonalPressed = false;
+                break;
             default:
                 break;
         }
@@ -183,15 +183,15 @@ document.addEventListener("DOMContentLoaded", () => {
             player.updatePosition("up", 5);
         } else if (downPressed && player.parameters.y < canvas.height - player.parameters.radius - 100) {
             player.updatePosition("down", 5);
-        // } else if (leftUpDiagonalPressed && player.parameters.x > player.parameters.radius + 100 && player.parameters.y > player.parameters.radius + 100 ) {
-        //     player.updatePosition("leftUp", 5);
-        // } else if (leftDownDiagonalPressed && player.parameters.x > player.parameters.radius + 100 && player.parameters.y < canvas.height - player.parameters.radius - 100) {
-        //     player.updatePosition("leftDown", 5);
-        // } else if (rightUpDiagonalPressed && player.parameters.x < canvas.width - player.parameters.radius - 100 && player.parameters.y > player.parameters.radius + 100) {
-        //     player.updatePosition("rightUp", 5);
-        // } else if (rightDownDiagonalPressed && player.parameters.x < canvas.width - player.parameters.radius - 100 && player.parameters.y < canvas.height - player.parameters.radius - 100) {
-        //     player.updatePosition("rightDown", 5);
-        // }
+        } else if (leftUpDiagonalPressed && player.parameters.x > player.parameters.radius + 100 && player.parameters.y > player.parameters.radius + 100 ) {
+            player.updatePosition("leftUp", 5);
+        } else if (leftDownDiagonalPressed && player.parameters.x > player.parameters.radius + 100 && player.parameters.y < canvas.height - player.parameters.radius - 100) {
+            player.updatePosition("leftDown", 5);
+        } else if (rightUpDiagonalPressed && player.parameters.x < canvas.width - player.parameters.radius - 100 && player.parameters.y > player.parameters.radius + 100) {
+            player.updatePosition("rightUp", 5);
+        } else if (rightDownDiagonalPressed && player.parameters.x < canvas.width - player.parameters.radius - 100 && player.parameters.y < canvas.height - player.parameters.radius - 100) {
+            player.updatePosition("rightDown", 5);
+        }
 
         // player collect dots 
         if (colliding(dot)) {
