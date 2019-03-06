@@ -264,16 +264,23 @@ document.addEventListener("DOMContentLoaded", () => {
   var ctx = canvas.getContext("2d");
   var dot = new _dot__WEBPACK_IMPORTED_MODULE_2__["default"](ctx, canvas);
   var player = new _player__WEBPACK_IMPORTED_MODULE_0__["default"](ctx, canvas);
-  let circles = []; // key handler  
+  let circles = [];
+  var modal = document.querySelector('.modal');
+  var backdrop = document.querySelector('.backdrop');
+  console.log(backdrop);
+
+  function closeModal() {
+    backdrop.style.display = 'none';
+    modal.style.display = 'none';
+  }
+
+  backdrop.onClick = closeModal;
+  modal.onClick = closeModal; // key handler  
 
   var rightPressed = false;
   var leftPressed = false;
   var upPressed = false;
-  var downPressed = false;
-  var leftUpDiagonalPressed = false;
-  var leftDownDiagonalPressed = false;
-  var rightUpDiagonalPressed = false;
-  var rightDownDiagonalPressed = false; // var scoreboard = [];
+  var downPressed = false; // var scoreboard = [];
   // fetchScore().then(score => {
   //         debugger
   //         var highScoreBox = document.getElementById("high-score-list");
@@ -296,6 +303,8 @@ document.addEventListener("DOMContentLoaded", () => {
   document.addEventListener("keyup", keyUpHandler, false);
 
   function keyDownHandler(e) {
+    e.preventDefault();
+
     switch (e.key) {
       case "ArrowRight":
         rightPressed = true;
@@ -313,32 +322,14 @@ document.addEventListener("DOMContentLoaded", () => {
         downPressed = true;
         break;
 
-      case "ArrowLeft":
-      case "ArrowUp":
-        leftUpDiagonalPressed = true;
-        break;
-
-      case "ArrowLeft":
-      case "ArrowDown":
-        leftDownDiagonalPressed = true;
-        break;
-
-      case "ArrowRight":
-      case "ArrowUp":
-        rightUpDiagonalPressed = true;
-        break;
-
-      case "ArrowRight":
-      case "ArrowDown":
-        rightDownDiagonalPressed = true;
-        break;
-
       default:
         break;
     }
   }
 
   function keyUpHandler(e) {
+    e.preventDefault();
+
     switch (e.key) {
       case "ArrowRight":
         rightPressed = false;
@@ -354,26 +345,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       case "ArrowDown":
         downPressed = false;
-
-      case "ArrowLeft":
-      case "ArrowUp":
-        leftUpDiagonalPressed = false;
-        break;
-
-      case "ArrowLeft":
-      case "ArrowDown":
-        leftDownDiagonalPressed = false;
-        break;
-
-      case "ArrowRight":
-      case "ArrowUp":
-        rightUpDiagonalPressed = true;
-        break;
-
-      case "ArrowRight":
-      case "ArrowDown":
-        rightDownDiagonalPressed = false;
-        break;
 
       default:
         break;
@@ -419,9 +390,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function playerInvincible() {
+    this.player.parameters.hittable = false;
     circles.forEach(circle, idx => {
       if (colliding(circle)) {
-        circles = circles.slice(idx, 1);
+        circles_left = circles.slice(0, idx);
+        circles_right = circles.slice(idx, 1);
+        circles = circles_left + circles_right;
       }
     });
   }
@@ -441,21 +415,19 @@ document.addEventListener("DOMContentLoaded", () => {
     // player movement and wall collision mechanics 
 
     if (rightPressed && player.parameters.x < canvas.width - player.parameters.radius - 100) {
-      player.updatePosition("right", 5);
-    } else if (leftPressed && player.parameters.x > player.parameters.radius + 100) {
-      player.updatePosition("left", 5);
-    } else if (upPressed && player.parameters.y > player.parameters.radius + 100) {
-      player.updatePosition("up", 5);
-    } else if (downPressed && player.parameters.y < canvas.height - player.parameters.radius - 100) {
-      player.updatePosition("down", 5);
-    } else if (leftUpDiagonalPressed && player.parameters.x > player.parameters.radius + 100 && player.parameters.y > player.parameters.radius + 100) {
-      player.updatePosition("leftUp", 5);
-    } else if (leftDownDiagonalPressed && player.parameters.x > player.parameters.radius + 100 && player.parameters.y < canvas.height - player.parameters.radius - 100) {
-      player.updatePosition("leftDown", 5);
-    } else if (rightUpDiagonalPressed && player.parameters.x < canvas.width - player.parameters.radius - 100 && player.parameters.y > player.parameters.radius + 100) {
-      player.updatePosition("rightUp", 5);
-    } else if (rightDownDiagonalPressed && player.parameters.x < canvas.width - player.parameters.radius - 100 && player.parameters.y < canvas.height - player.parameters.radius - 100) {
-      player.updatePosition("rightDown", 5);
+      player.updatePosition("right", 3);
+    }
+
+    if (leftPressed && player.parameters.x > player.parameters.radius + 100) {
+      player.updatePosition("left", 3);
+    }
+
+    if (upPressed && player.parameters.y > player.parameters.radius + 100) {
+      player.updatePosition("up", 3);
+    }
+
+    if (downPressed && player.parameters.y < canvas.height - player.parameters.radius - 100) {
+      player.updatePosition("down", 3);
     } // player collect dots 
 
 
@@ -482,11 +454,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     switch (player.score) {
-      case 10:
+      case 5:
         playerInvincible();
-        break;
 
       default:
+        player.parameters.hittable = true;
         break;
     }
   }
@@ -10888,10 +10860,10 @@ class Player {
     this.parameters = {
       x: 400,
       y: 400,
-      radius: 40
+      radius: 40,
+      hittable: true
     };
     this.score = 0;
-    this.timer = 0;
   }
 
   drawPlayer() {
@@ -10904,8 +10876,13 @@ class Player {
     this.ctx.arc(x, y, radius, 0, Math.PI * 2);
     this.ctx.strokeStyle = "red";
     this.ctx.stroke();
-    this.ctx.closePath(); // this.image = new Image();
+    this.ctx.closePath();
+
+    if (!this.parameters.hittable) {
+      ctx.fillStyle = 'red';
+    } // this.image = new Image();
     // this.image.src = './app/assets/1200px-SNice.svg.png'
+
   }
 
   updatePosition(direction, num) {
@@ -10926,26 +10903,6 @@ class Player {
         this.parameters.y += num;
         break;
 
-      case "leftUp":
-        this.parameters.x -= num;
-        this.parameters.y -= num;
-        break;
-
-      case "leftDown":
-        this.parameters.x -= num;
-        this.parameters.y += num;
-        break;
-
-      case "rightUp":
-        this.parameters.x += num;
-        this.parameters.y -= num;
-        break;
-
-      case "rightDown":
-        this.parameters.x += num;
-        this.parameters.y += num;
-        break;
-
       default:
         break;
     }
@@ -10956,7 +10913,11 @@ class Player {
   }
 
   circleCollision() {
-    this.score -= 1;
+    if (this.parameters.hittable) {
+      this.score -= 1;
+    }
+
+    ;
 
     if (this.score < 0) {
       this.score = 0;
@@ -10973,11 +10934,10 @@ class Player {
     this.ctx.font = "24px Arial";
     this.ctx.fillStyle = "#0095DD";
     this.ctx.fillText("Timer: " + this.timer + ' sec', 500, 55);
-  }
+  } // increaseTimer() {
+  //     this.timer + 1;
+  // }
 
-  increaseTimer() {
-    this.timer + 1;
-  }
 
 }
 

@@ -8,12 +8,47 @@
     flex-direction: row;
     background-color: black;
 }
-/* 
+
 body {
-    background-colo;
-} */
+    background-color: black;
+}
 
 #highscore {
     color: red;
-    font-size:  30px; 
+    font-size:  20px; 
+}
+
+.links {
+    /* margin-top: 550px; */
+     
+}
+
+.link-list {
+    display: flex;
+    flex-direction: row;
+    height: 200px;
+    justify-content: space-around;
+    /* margin-left: 100px; */
+}
+
+.backdrop {
+    display: none;
+    position: fixed;
+    background: rgba(235, 226, 226, 0.5);
+    top: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    background: blue; 
+    padding: 10px;
+    width: 260px;
+    height: 200px;
+    top: 250px;
+    left: calc(50% - 140px);
+    z-index: 1;
 }

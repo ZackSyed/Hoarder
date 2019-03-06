@@ -10,15 +10,24 @@ document.addEventListener("DOMContentLoaded", () => {
     var player = new Player(ctx, canvas);
     let circles = []; 
     
+
+    var modal = document.querySelector('.modal');
+    var backdrop = document.querySelector('.backdrop');
+    console.log(backdrop);
+
+    function closeModal() {
+        backdrop.style.display  = 'none';
+        modal.style.display  = 'none';
+    }
+
+    backdrop.onClick = closeModal;
+    modal.onClick = closeModal;
+
     // key handler  
     var rightPressed = false;
     var leftPressed = false;
     var upPressed = false;
     var downPressed = false;
-    var leftUpDiagonalPressed = false;
-    var leftDownDiagonalPressed = false;
-    var rightUpDiagonalPressed = false;
-    var rightDownDiagonalPressed = false;
 
     // var scoreboard = [];
     // fetchScore().then(score => {
@@ -43,6 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener("keyup", keyUpHandler, false);
 
     function keyDownHandler(e) {
+        e.preventDefault();
         switch (e.key) {
             case ("ArrowRight"):
                 rightPressed = true;
@@ -56,28 +66,13 @@ document.addEventListener("DOMContentLoaded", () => {
             case ("ArrowDown"):
                 downPressed = true;
                 break;
-            case ("ArrowLeft"):
-            case ("ArrowUp"):
-                leftUpDiagonalPressed = true;
-                break;
-            case ("ArrowLeft"):
-            case ("ArrowDown"):
-                leftDownDiagonalPressed = true;
-                break;
-            case ("ArrowRight"):
-            case ("ArrowUp"):
-                rightUpDiagonalPressed = true;
-                break;
-            case ("ArrowRight"):
-            case ("ArrowDown"):
-                rightDownDiagonalPressed = true;
-                break;
             default:
                 break;
         }
     }
 
     function keyUpHandler(e) {
+        e.preventDefault();
         switch (e.key) {
             case ("ArrowRight"):
                 rightPressed = false;
@@ -90,22 +85,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 break;
             case ("ArrowDown"):
                 downPressed = false;
-            case ("ArrowLeft"):
-            case ("ArrowUp"):
-                leftUpDiagonalPressed = false;
-                break;
-            case ("ArrowLeft"):
-            case ("ArrowDown"):
-                leftDownDiagonalPressed = false;
-                break;
-            case ("ArrowRight"):
-            case ("ArrowUp"):
-                rightUpDiagonalPressed = true;
-                break;
-            case ("ArrowRight"):
-            case ("ArrowDown"):
-                rightDownDiagonalPressed = false;
-                break;
             default:
                 break;
         }
@@ -153,9 +132,12 @@ document.addEventListener("DOMContentLoaded", () => {
     
 
     function playerInvincible() {
+        this.player.parameters.hittable = false; 
         circles.forEach( circle, idx => {
             if (colliding(circle)) {
-               circles = circles.slice(idx, 1)
+               circles_left = circles.slice(0, idx);
+               circles_right = circles.slice(idx, 1);
+               circles = circles_left + circles_right;
             } 
         })
     }
@@ -176,22 +158,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // player movement and wall collision mechanics 
         if (rightPressed && player.parameters.x < canvas.width - player.parameters.radius - 100) {
-            player.updatePosition("right", 5);
-        } else if (leftPressed && player.parameters.x > player.parameters.radius + 100) {
-            player.updatePosition("left", 5);
-        } else if (upPressed && player.parameters.y > player.parameters.radius + 100) {
-            player.updatePosition("up", 5);
-        } else if (downPressed && player.parameters.y < canvas.height - player.parameters.radius - 100) {
-            player.updatePosition("down", 5);
-        } else if (leftUpDiagonalPressed && player.parameters.x > player.parameters.radius + 100 && player.parameters.y > player.parameters.radius + 100 ) {
-            player.updatePosition("leftUp", 5);
-        } else if (leftDownDiagonalPressed && player.parameters.x > player.parameters.radius + 100 && player.parameters.y < canvas.height - player.parameters.radius - 100) {
-            player.updatePosition("leftDown", 5);
-        } else if (rightUpDiagonalPressed && player.parameters.x < canvas.width - player.parameters.radius - 100 && player.parameters.y > player.parameters.radius + 100) {
-            player.updatePosition("rightUp", 5);
-        } else if (rightDownDiagonalPressed && player.parameters.x < canvas.width - player.parameters.radius - 100 && player.parameters.y < canvas.height - player.parameters.radius - 100) {
-            player.updatePosition("rightDown", 5);
-        }
+            player.updatePosition("right", 3);
+        } 
+        if (leftPressed && player.parameters.x > player.parameters.radius + 100) {
+            player.updatePosition("left", 3);
+        } 
+         if (upPressed && player.parameters.y > player.parameters.radius + 100) {
+            player.updatePosition("up", 3);
+        } 
+         if (downPressed && player.parameters.y < canvas.height - player.parameters.radius - 100) {
+            player.updatePosition("down", 3);
+        } 
+         
 
         // player collect dots 
         if (colliding(dot)) {
@@ -216,10 +194,10 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         switch (player.score) {
-            case 10:
+            case 5:
                 playerInvincible();
-                break;
             default:
+                player.parameters.hittable = true;
                 break;
         }
     }

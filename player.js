@@ -6,10 +6,10 @@ class Player {
         this.parameters = {
             x: 400,
             y: 400,
-            radius: 40
+            radius: 40,
+            hittable: true
         }
         this.score = 0; 
-        this.timer = 0;
     }
 
     drawPlayer() {
@@ -19,6 +19,10 @@ class Player {
         this.ctx.strokeStyle = "red";
         this.ctx.stroke();
         this.ctx.closePath();
+
+        if (!this.parameters.hittable) {
+            ctx.fillStyle = 'red'
+        }
         // this.image = new Image();
         // this.image.src = './app/assets/1200px-SNice.svg.png'
     }
@@ -37,22 +41,6 @@ class Player {
             case "down":
                 this.parameters.y += num; 
                 break;
-            case "leftUp":
-                this.parameters.x -= num;
-                this.parameters.y -= num; 
-                break;
-            case "leftDown":
-                this.parameters.x -= num;
-                this.parameters.y += num; 
-                break;
-            case "rightUp":
-                this.parameters.x += num;
-                this.parameters.y -= num; 
-                break;
-            case "rightDown":
-                this.parameters.x += num;
-                this.parameters.y += num; 
-                break;
             default:
                 break;
         }
@@ -63,7 +51,7 @@ class Player {
     }
 
     circleCollision() {
-        this.score -= 1;
+        if (this.parameters.hittable) { this.score -= 1 };
         if (this.score < 0) {
             this.score = 0; 
         }
@@ -81,9 +69,9 @@ class Player {
         this.ctx.fillText("Timer: " + this.timer + ' sec', 500, 55);
     }
 
-    increaseTimer() {
-        this.timer + 1;
-    }
+    // increaseTimer() {
+    //     this.timer + 1;
+    // }
 }
 
 export default Player; 
