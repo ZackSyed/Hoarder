@@ -10880,6 +10880,7 @@ class Player {
 
     if (!this.parameters.hittable) {
       ctx.fillStyle = 'red';
+      ctx.fill();
     } // this.image = new Image();
     // this.image.src = './app/assets/1200px-SNice.svg.png'
 
@@ -10929,15 +10930,6 @@ class Player {
     this.ctx.fillStyle = "#0095DD";
     this.ctx.fillText("Score: " + this.score, 500, 80);
   }
-
-  drawTimer() {
-    this.ctx.font = "24px Arial";
-    this.ctx.fillStyle = "#0095DD";
-    this.ctx.fillText("Timer: " + this.timer + ' sec', 500, 55);
-  } // increaseTimer() {
-  //     this.timer + 1;
-  // }
-
 
 }
 
