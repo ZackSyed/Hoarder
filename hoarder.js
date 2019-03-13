@@ -100,8 +100,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function drawHeader() {
         ctx.font = "40px Arial";
-        ctx.fillStyle = "black";
-        ctx.fillText("Hoarder", 300, 90)
+        ctx.fillStyle = "red";
+        ctx.fillText("Hoarder", 300, 80)
     }   
 
      // high score functionality, call in game over mechanics
