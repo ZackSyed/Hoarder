@@ -1,7 +1,6 @@
 import Player from './player';
 import Circle from './badCircle';
 import Dot from './dot';
-import { fetchScore, postScore } from './util';
 
 document.addEventListener("DOMContentLoaded", () => {
     var canvas = document.getElementById("myCanvas");
@@ -9,44 +8,12 @@ document.addEventListener("DOMContentLoaded", () => {
     var dot = new Dot(ctx, canvas);
     var player = new Player(ctx, canvas);
     let circles = []; 
-    
-
-    var modal = document.querySelector('.modal');
-    var backdrop = document.querySelector('.backdrop');
-    console.log(backdrop);
-
-    function closeModal() {
-        backdrop.style.display  = 'none';
-        modal.style.display  = 'none';
-    }
-
-    backdrop.onClick = closeModal;
-    modal.onClick = closeModal;
 
     // key handler  
     var rightPressed = false;
     var leftPressed = false;
     var upPressed = false;
     var downPressed = false;
-
-    // var scoreboard = [];
-    // fetchScore().then(score => {
-    //         debugger
-    //         var highScoreBox = document.getElementById("high-score-list");
-    //         scoreboard = Object.entries(score);
-    //         for (let i = 0; i < scoreboard.length; i++) {
-    //             debugger
-    //             if (scoreboard[i].typeOf === 'object') {
-    //                 debugger
-    //                 let myScores = Object.entries(scoreboard[i]);
-    //                 debugger
-    //             }
-    //             // var highScoreContent = document.createTextNode(`score: ${scoreboard[i].score}`)
-    //             // debugger
-    //             // highScoreBox.appendChild(highScoreContent);
-    //         }
-    //     }
-    // )
 
     document.addEventListener("keydown", keyDownHandler, false);
     document.addEventListener("keyup", keyUpHandler, false);
@@ -104,13 +71,6 @@ document.addEventListener("DOMContentLoaded", () => {
         ctx.fillText("Hoarder", 300, 80)
     }   
 
-     // high score functionality, call in game over mechanics
-    // function addHighscoreToDocument() {
-    //     var highScoreBox = document.getElementById("high-score-list");
-    //     var highScoreContent = document.createTextNode(`${}`)
-    //     highScoreBox.appendChild(highScoreContent);
-    // }
-
     function colliding(object) {
         // if (between(circle.parameters.x, (player.parameters.x - player.parameters.radius), 
         //     (player.parameters.x + player.parameters.radius)) &&
@@ -153,8 +113,6 @@ document.addEventListener("DOMContentLoaded", () => {
             circle.move();  
         });
         player.drawScore();
-        // player.drawTimer();
-        // player.increaseTimer();
 
         // player movement and wall collision mechanics 
         if (rightPressed && player.parameters.x < canvas.width - player.parameters.radius - 100) {
@@ -186,9 +144,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (player.score <= 0) {
                     circles = [];
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    // alert("Game over");
                     location.reload();
-                    addHighscoreToDocument();
+                    addHighscoreToFirebase();
                 } 
             } 
         });

@@ -13,12 +13,12 @@ body {
     background-color: black;
 }
 
-#highscore {
+#summary {
     color: red;
     font-size:  20px; 
     height: 450px;
     width: 600px;
-    margin-top: 30px;
+    margin-top: 50px;
 
 }
 
@@ -26,29 +26,7 @@ body {
     display: flex;
     flex-direction: row;
     height: 200px;
-    justify-content: center;
-}
-
-.backdrop {
-    display: none;
-    position: fixed;
-    background: rgba(235, 226, 226, 0.5);
-    top: 0;
-    height: 100%;
-    width: 100%;
-    z-index: 1;
-}
-
-.modal {
-    display: none;
-    position: fixed;
-    background: blue; 
-    padding: 10px;
-    width: 260px;
-    height: 200px;
-    top: 250px;
-    left: calc(50% - 140px);
-    z-index: 1;
+    justify-content: flex-start;
 }
 
 #controls {
@@ -73,4 +51,13 @@ body {
     margin-right: 20px;
     margin-left: 10px;
     color: red;
+}
+
+#blue {
+    color: blue;
+}
+
+
+#green {
+    color: green;
 }
